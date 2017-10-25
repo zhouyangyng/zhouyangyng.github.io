@@ -6,20 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://zhouyangyng.github.io">
-  <title>点开查看2位总 | 浩瀚星空的博客</title>
+  <title>UITabBarItem添加动画的一种方法 | 浩瀚星空的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##相约的就点进来 哈哈哈， 😁  我是李总">
-<meta name="keywords" content="iOS, OC, swift, 程序员, 开发者, 移动开发">
+  <meta name="description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="点开查看2位总">
-<meta property="og:url" content="https://zhouyangyng.github.io/2017/10/23/点开查看2位总/index.html">
+<meta property="og:title" content="UITabBarItem添加动画的一种方法">
+<meta property="og:url" content="https://zhouyangyng.github.io/2017/09/24/UITabBarItem添加动画的一种方法/index.html">
 <meta property="og:site_name" content="浩瀚星空的博客">
-<meta property="og:description" content="##相约的就点进来 哈哈哈， 😁  我是李总">
+<meta property="og:description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
 <meta property="og:locale" content="zh-Han">
-<meta property="og:updated_time" content="2017-10-23T14:22:28.000Z">
+<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/tabbar_animate1.gif">
+<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/tabbar_2.png">
+<meta property="og:updated_time" content="2017-10-25T13:42:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="点开查看2位总">
-<meta name="twitter:description" content="##相约的就点进来 哈哈哈， 😁  我是李总">
+<meta name="twitter:title" content="UITabBarItem添加动画的一种方法">
+<meta name="twitter:description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
+<meta name="twitter:image" content="https://zhouyangyng.github.io/assets/blog/tabbar_animate1.gif">
   
     <link rel="alternative" href="/atom.xml" title="浩瀚星空的博客" type="application/atom+xml">
   
@@ -155,28 +158,39 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-点开查看2位总" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-UITabBarItem添加动画的一种方法" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      点开查看2位总
+      UITabBarItem添加动画的一种方法
     </h1>
   
 
         
-        <a href="/2017/10/23/点开查看2位总/" class="archive-article-date">
-  	<time datetime="2017-10-23T14:15:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-23</time>
+        <a href="/2017/09/24/UITabBarItem添加动画的一种方法/" class="archive-article-date">
+  	<time datetime="2017-09-24T13:43:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##相约的就点进来</p>
-<p>哈哈哈， 😁  <a href="http://weibo.com/u/2698418531?refer_flag=1005050005_" target="_blank" rel="external">我是李总</a></p>
+        <p>  最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。<br>  首先来看一下效果：</p>
+<a id="more"></a>
+<p><img src="/assets/blog/tabbar_animate1.gif" alt=""></p>
+<p>接下来说一下实现方法。</p>
+<h3 id="1-自定义UITabBarController"><a href="#1-自定义UITabBarController" class="headerlink" title="1.自定义UITabBarController"></a>1.自定义UITabBarController</h3><p>APP的根控制器是自定义的TabBarController，继承自UITabBarController。接着在自定义的TabBarController中重写选中tabbarItem的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-选中item时，找到添加动画的控件"><a href="#2-选中item时，找到添加动画的控件" class="headerlink" title="2.选中item时，找到添加动画的控件"></a>2.选中item时，找到添加动画的控件</h3><p>如果直接对 tabbarItem 添加动画，并不方便，实际上要做的是，找到方便添加动画的控件 <strong>UITabBarButton</strong>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//重写 didSelectItem 方法</span></div><div class="line">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;</div><div class="line"></div><div class="line">    NSInteger index = [<span class="keyword">self</span>.tabBar.items indexOfObject:item];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.indexFlag != index) &#123;</div><div class="line">        [<span class="keyword">self</span> animationWithIndex:index];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 动画</span></div><div class="line">- (void)animationWithIndex:(NSInteger) index &#123;</div><div class="line"></div><div class="line">    NSMutableArray *tabbarbuttonArray = [NSMutableArray <span class="keyword">array</span>];</div><div class="line">    <span class="comment">//找到所有的 UITabBarButton</span></div><div class="line">    <span class="keyword">for</span> (UIView *tabBarButton in <span class="keyword">self</span>.tabBar.subviews) &#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> ([tabBarButton isKindOfClass:NSClassFromString(@<span class="string">"UITabBarButton"</span>)]) &#123;</div><div class="line"></div><div class="line">            [tabbarbuttonArray addObject:tabBarButton];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//动画组</span></div><div class="line">    CAAnimationGroup *group = [CAAnimationGroup animation];</div><div class="line">    group.animations = @[[<span class="keyword">self</span> scaleAnimation], [<span class="keyword">self</span> rotationAnimation]];</div><div class="line">    group.duration = <span class="number">0.15</span>;</div><div class="line"></div><div class="line">    UIView *tabbarBtn = tabbarbuttonArray[index];</div><div class="line">    <span class="comment">//找到UITabBarButton中的imageView，加动画</span></div><div class="line">    <span class="keyword">for</span> (UIView *sub in tabbarBtn.subviews) &#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> ([sub isKindOfClass:NSClassFromString(@<span class="string">"UITabBarSwappableImageView"</span>)]) &#123;</div><div class="line"></div><div class="line">            [sub.layer addAnimation:group forKey:nil];</div><div class="line">            <span class="comment">//音效</span></div><div class="line">            AudioServicesPlaySystemSound(<span class="number">1109</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">self</span>.indexFlag = index;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过查看 <strong>UITabBarButton</strong> 的subviews，可以看到有2个子控件：</p>
+<p><img src="/assets/blog/tabbar_2.png" width="400"></p>
+
+<p>我们正是要对tabbar上的图片添加动画，因此找到 <strong>UITabBarSwappableImageView</strong>，如果直接对 <strong>UItabBarButton</strong> 添加动画，图片和文字都会有效果，看上去有些奇怪。接着就是第三步了。</p>
+<h3 id="3-添加动画"><a href="#3-添加动画" class="headerlink" title="3.添加动画"></a>3.添加动画</h3><p>动画效果看自己的需求了，下面的是缩放和旋转的动画，仅供参考：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">///大小的动画</div><div class="line">- (CABasicAnimation *)scaleAnimation &#123;</div><div class="line"></div><div class="line">    CABasicAnimation *scaleAni = [CABasicAnimation animationWithKeyPath:@<span class="string">"transform.scale"</span>];</div><div class="line"></div><div class="line">    scaleAni.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];</div><div class="line">    </div><div class="line">    scaleAni.repeatCount = <span class="number">1</span>;</div><div class="line">    </div><div class="line">    scaleAni.autoreverses = YES;</div><div class="line">    </div><div class="line">    scaleAni.fromValue = [NSNumber numberWithFloat:<span class="number">1</span>];</div><div class="line">    </div><div class="line">    scaleAni.toValue = [NSNumber numberWithFloat:<span class="number">0.5</span>];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> scaleAni;</div><div class="line">&#125;</div><div class="line"></div><div class="line">///旋转的动画</div><div class="line">- (CABasicAnimation *)rotationAnimation &#123;</div><div class="line"></div><div class="line">    CABasicAnimation *rotateAni = [CABasicAnimation animationWithKeyPath:@<span class="string">"transform.rotation.y"</span>];</div><div class="line">    </div><div class="line">    rotateAni.fromValue = @(<span class="number">0</span>);</div><div class="line">    </div><div class="line">    rotateAni.toValue = @(M_PI);</div><div class="line">    </div><div class="line">    rotateAni.repeatCount = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> rotateAni;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>基本的方法就是这样，只要找到添加动画的对象，接下来只需要考虑动画的实现方法就好了。<br>具体的demo见github: <a href="https://github.com/zhouyangyng/TabbarAnimateTest" target="_blank" rel="external">https://github.com/zhouyangyng/TabbarAnimateTest</a> 。</p>
 
       
 
@@ -211,6 +225,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -261,7 +286,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=https://zhouyangyng.github.io/2017/10/23/点开查看2位总/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://zhouyangyng.github.io/2017/09/24/UITabBarItem添加动画的一种方法/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -276,7 +301,7 @@
 <nav id="article-nav">
   
   
-    <a href="/2017/10/21/学会Markdown/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/06/21/学会Markdown/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">学会Markdown</div>
       <i class="icon-circle-right"></i>
     </a>
