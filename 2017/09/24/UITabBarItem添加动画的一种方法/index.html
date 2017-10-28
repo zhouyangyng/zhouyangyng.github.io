@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="https://zhouyangyng.github.io">
   <title>UITabBarItem添加动画的一种方法 | 浩瀚星空的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
+  <meta name="description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉没有太多作用。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
 <meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UITabBarItem添加动画的一种方法">
 <meta property="og:url" content="https://zhouyangyng.github.io/2017/09/24/UITabBarItem添加动画的一种方法/index.html">
 <meta property="og:site_name" content="浩瀚星空的博客">
-<meta property="og:description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
+<meta property="og:description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉没有太多作用。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
 <meta property="og:locale" content="zh-Han">
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/tabbar_animate1.gif">
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/tabbar_2.png">
-<meta property="og:updated_time" content="2017-10-25T13:42:52.000Z">
+<meta property="og:updated_time" content="2017-10-28T05:09:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UITabBarItem添加动画的一种方法">
-<meta name="twitter:description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
+<meta name="twitter:description" content="最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉没有太多作用。不过我还是想办法尝试一下，如何给TabBarItem添加动画。  首先来看一下效果：">
 <meta name="twitter:image" content="https://zhouyangyng.github.io/assets/blog/tabbar_animate1.gif">
   
     <link rel="alternative" href="/atom.xml" title="浩瀚星空的博客" type="application/atom+xml">
@@ -178,13 +178,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>  最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉然并卵。不过我还是想办法尝试一下，如何给TabBarItem添加动画。<br>  首先来看一下效果：</p>
+        <p>  最近项目考虑对APP的TabBarItem添加动画，使得界面更多的展现出高大上的感觉/(ㄒoㄒ)/~~ 虽然我感觉没有太多作用。不过我还是想办法尝试一下，如何给TabBarItem添加动画。<br>  首先来看一下效果：</p>
 <a id="more"></a>
 <p><img src="/assets/blog/tabbar_animate1.gif" alt=""></p>
 <p>接下来说一下实现方法。</p>
-<h3 id="1-自定义UITabBarController"><a href="#1-自定义UITabBarController" class="headerlink" title="1.自定义UITabBarController"></a>1.自定义UITabBarController</h3><p>APP的根控制器是自定义的TabBarController，继承自UITabBarController。接着在自定义的TabBarController中重写选中tabbarItem的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="2-选中item时，找到添加动画的控件"><a href="#2-选中item时，找到添加动画的控件" class="headerlink" title="2.选中item时，找到添加动画的控件"></a>2.选中item时，找到添加动画的控件</h3><p>如果直接对 tabbarItem 添加动画，并不方便，实际上要做的是，找到方便添加动画的控件 <strong>UITabBarButton</strong>。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//重写 didSelectItem 方法</span></div><div class="line">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;</div><div class="line"></div><div class="line">    NSInteger index = [<span class="keyword">self</span>.tabBar.items indexOfObject:item];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.indexFlag != index) &#123;</div><div class="line">        [<span class="keyword">self</span> animationWithIndex:index];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 动画</span></div><div class="line">- (void)animationWithIndex:(NSInteger) index &#123;</div><div class="line"></div><div class="line">    NSMutableArray *tabbarbuttonArray = [NSMutableArray <span class="keyword">array</span>];</div><div class="line">    <span class="comment">//找到所有的 UITabBarButton</span></div><div class="line">    <span class="keyword">for</span> (UIView *tabBarButton in <span class="keyword">self</span>.tabBar.subviews) &#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> ([tabBarButton isKindOfClass:NSClassFromString(@<span class="string">"UITabBarButton"</span>)]) &#123;</div><div class="line"></div><div class="line">            [tabbarbuttonArray addObject:tabBarButton];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//动画组</span></div><div class="line">    CAAnimationGroup *group = [CAAnimationGroup animation];</div><div class="line">    group.animations = @[[<span class="keyword">self</span> scaleAnimation], [<span class="keyword">self</span> rotationAnimation]];</div><div class="line">    group.duration = <span class="number">0.15</span>;</div><div class="line"></div><div class="line">    UIView *tabbarBtn = tabbarbuttonArray[index];</div><div class="line">    <span class="comment">//找到UITabBarButton中的imageView，加动画</span></div><div class="line">    <span class="keyword">for</span> (UIView *sub in tabbarBtn.subviews) &#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> ([sub isKindOfClass:NSClassFromString(@<span class="string">"UITabBarSwappableImageView"</span>)]) &#123;</div><div class="line"></div><div class="line">            [sub.layer addAnimation:group forKey:nil];</div><div class="line">            <span class="comment">//音效</span></div><div class="line">            AudioServicesPlaySystemSound(<span class="number">1109</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">self</span>.indexFlag = index;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-自定义UITabBarController"><a href="#1-自定义UITabBarController" class="headerlink" title="1.自定义UITabBarController"></a>1.自定义UITabBarController</h3><p> APP的根控制器是自定义的TabBarController，继承自UITabBarController。接着在自定义的TabBarController中重写选中tabbarItem的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-选中item时，找到添加动画的控件"><a href="#2-选中item时，找到添加动画的控件" class="headerlink" title="2.选中item时，找到添加动画的控件"></a>2.选中item时，找到添加动画的控件</h3><p> 如果直接对 tabbarItem 添加动画，并不方便，实际上要做的是，找到方便添加动画的控件 <strong>UITabBarButton</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">//重写 didSelectItem 方法</div><div class="line">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;</div><div class="line"></div><div class="line">    NSInteger index = [self.tabBar.items indexOfObject:item];</div><div class="line"></div><div class="line">    if (self.indexFlag != index) &#123;</div><div class="line">        [self animationWithIndex:index];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">// 动画</div><div class="line">- (void)animationWithIndex:(NSInteger) index &#123;</div><div class="line"></div><div class="line">    NSMutableArray *tabbarbuttonArray = [NSMutableArray array];</div><div class="line">    //找到所有的 UITabBarButton</div><div class="line">    for (UIView *tabBarButton in self.tabBar.subviews) &#123;</div><div class="line"></div><div class="line">        if ([tabBarButton isKindOfClass:NSClassFromString(@&quot;UITabBarButton&quot;)]) &#123;</div><div class="line"></div><div class="line">            [tabbarbuttonArray addObject:tabBarButton];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //动画组</div><div class="line">    CAAnimationGroup *group = [CAAnimationGroup animation];</div><div class="line">    group.animations = @[[self scaleAnimation], [self rotationAnimation]];</div><div class="line">    group.duration = 0.15;</div><div class="line"></div><div class="line">    UIView *tabbarBtn = tabbarbuttonArray[index];</div><div class="line">    //找到UITabBarButton中的imageView，加动画</div><div class="line">    for (UIView *sub in tabbarBtn.subviews) &#123;</div><div class="line"></div><div class="line">        if ([sub isKindOfClass:NSClassFromString(@&quot;UITabBarSwappableImageView&quot;)]) &#123;</div><div class="line"></div><div class="line">            [sub.layer addAnimation:group forKey:nil];</div><div class="line">            //音效</div><div class="line">            AudioServicesPlaySystemSound(1109);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    self.indexFlag = index;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>通过查看 <strong>UITabBarButton</strong> 的subviews，可以看到有2个子控件：</p>
 <p><img src="/assets/blog/tabbar_2.png" width="400"></p>
 
@@ -299,6 +299,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2017/09/26/解决Xcode9打包上传失败的问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          解决Xcode9打包上传失败的问题
+        
+      </div>
+    </a>
   
   
     <a href="/2017/06/21/学会Markdown/" id="article-nav-older" class="article-nav-link-wrap">
@@ -420,11 +429,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">旧事</a>
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">旧事</a>
               </li>
             
             <div class="clearfix"></div>
