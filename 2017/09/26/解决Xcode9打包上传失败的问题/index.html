@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_finder.png">
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_cfzxapp.png">
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_icons.png">
-<meta property="og:updated_time" content="2017-10-28T05:11:46.000Z">
+<meta property="og:updated_time" content="2017-10-28T05:24:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决Xcode9打包上传失败的问题">
 <meta name="twitter:description" content="问题描述：前几天刚升级的Xcode9，今天第一次使用Xcode9打包更新APP的版本，结果上传ipa包的时候报错了:">
@@ -224,7 +224,7 @@
 <li>DTPlatformBuild -&gt; “14E8301”</li>
 </ol>
 </blockquote>
-<p>修改之后，导出ipa包，再次上传，成功！其实这种方法，就是把配置信息修改成Xcode8，因为使用Xcode8上传ipa，APP Store不会验证1024px的icon，这样就解决了图标丢失的问题了。</p>
+<p>修改之后，导出ipa包，再次上传，成功！其实这种方法，就是把配置信息修改成Xcode8，虽然使用的是Xcode9，但是APP Store会认为是Xcode8, 因此APP Store不会验证1024px的icon，这样就解决了图标丢失的问题了，当然还要记得去iTunes Connect把APP的icon换成1024px的。</p>
 
       
 
@@ -454,11 +454,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+                <a href="javascript:void(0)" class="js-tag color3">旧事</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">旧事</a>
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
             
             <div class="clearfix"></div>
