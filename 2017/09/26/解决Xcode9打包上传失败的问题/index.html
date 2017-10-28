@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_finder.png">
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_cfzxapp.png">
 <meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_icons.png">
-<meta property="og:updated_time" content="2017-10-28T05:09:28.000Z">
+<meta property="og:updated_time" content="2017-10-28T05:11:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决Xcode9打包上传失败的问题">
 <meta name="twitter:description" content="问题描述：前几天刚升级的Xcode9，今天第一次使用Xcode9打包更新APP的版本，结果上传ipa包的时候报错了:">
@@ -185,7 +185,7 @@
 <a id="more"></a>
 <p><img src="/assets/blog/appstore_1.png" width="400"></p>
 
-<p>去网上查找了方法，很多人说是<strong>cocoapods</strong>的原因，解决方法是：在项目的<strong>podfile</strong>文件中，添加下面这段代码：</p>
+<p>去网上查找了方法，很多人说是<strong>cocoapods</strong>的原因，解决方法是：在项目的<strong>podfile</strong>文件中，添加下面这段代码(代码中”TargetName”换成自己的)：</p>
 <blockquote>
 <p><font size="2"> post_install do |installer|<br>copy_pods_resources_path = “Pods/Target Support Files/Pods-*TargetName/Pods-TargetName-resources.sh”<br>string_to_replace = ‘–compile “${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}”‘<br>assets_compile_with_app_icon_arguments = ‘–compile “${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}” –app-icon “${ASSETCATALOG_COMPILER_APPICON_NAME}” –output-partial-info-plist “${BUILD_DIR}/assetcatalog_generated_info.plist”‘<br>text = File.read(copy_pods_resources_path)<br>new_contents = text.gsub(string_to_replace, assets_compile_with_app_icon_arguments)<br>File.open(copy_pods_resources_path, “w”) {|file| file.puts new_contents }<br>end</font></p>
 </blockquote>
