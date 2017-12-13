@@ -6,16 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://zhouyangyng.github.io">
-  <title>Archives: 2017 | 浩瀚星空的博客</title>
+  <title>UIAlertController自定义的样式 | 浩瀚星空的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="iOS, OC, swift, 程序员, 开发者, 移动开发">
-<meta property="og:type" content="website">
-<meta property="og:title" content="浩瀚星空的博客">
-<meta property="og:url" content="https://zhouyangyng.github.io/archives/2017/index.html">
+  <meta name="description" content="平时使用UIAlertController还是挺频繁的，最近需要改变一下默认的样式，于是研究了一番如何设置不同的显示样式。先看看基本的显示:">
+<meta name="keywords" content="iOS, OC, swift, 程序员, 开发者, 移动开发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIAlertController自定义的样式">
+<meta property="og:url" content="https://zhouyangyng.github.io/2017/12/13/UIAlertController自定义的样式/index.html">
 <meta property="og:site_name" content="浩瀚星空的博客">
+<meta property="og:description" content="平时使用UIAlertController还是挺频繁的，最近需要改变一下默认的样式，于是研究了一番如何设置不同的显示样式。先看看基本的显示:">
 <meta property="og:locale" content="zh-Han">
+<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/alert/alert_01.png">
+<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/alert/alert_02.png">
+<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/alert/alert_03.png">
+<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/alert/alert_04.png">
+<meta property="og:updated_time" content="2017-12-13T14:54:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浩瀚星空的博客">
+<meta name="twitter:title" content="UIAlertController自定义的样式">
+<meta name="twitter:description" content="平时使用UIAlertController还是挺频繁的，最近需要改变一下默认的样式，于是研究了一番如何设置不同的显示样式。先看看基本的显示:">
+<meta name="twitter:image" content="https://zhouyangyng.github.io/assets/blog/alert/alert_01.png">
   
     <link rel="alternative" href="/atom.xml" title="浩瀚星空的博客" type="application/atom+xml">
   
@@ -151,163 +160,179 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-UIAlertController自定义的样式" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      UIAlertController自定义的样式
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/13/UIAlertController自定义的样式/" class="archive-article-date">
+
+        
+        <a href="/2017/12/13/UIAlertController自定义的样式/" class="archive-article-date">
   	<time datetime="2017-12-13T00:02:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-13</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/13/UIAlertController自定义的样式/">UIAlertController自定义的样式</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>平时使用<strong>UIAlertController</strong>还是挺频繁的，最近需要改变一下默认的样式，于是研究了一番如何设置不同的显示样式。先看看基本的显示:<br><img src="/assets/blog/alert/alert_01.png" alt=""></p>
+<a id="more"></a>
+<p>下面说一下具体的实现方法。</p>
+<h3 id="1-查看UIAlertController所有的成员变量"><a href="#1-查看UIAlertController所有的成员变量" class="headerlink" title="1.查看UIAlertController所有的成员变量"></a>1.查看UIAlertController所有的成员变量</h3><p>通过runtime的<strong>class_copyIvarList</strong>方法，获取成员变量：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">unsigned <span class="keyword">int</span> count;</div><div class="line"></div><div class="line">Ivar * properties = class_copyIvarList([UIAlertController class], &amp;count);</div><div class="line"></div><div class="line"><span class="keyword">for</span> (unsigned <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</div><div class="line"></div><div class="line">Ivar property = properties[i];</div><div class="line"><span class="keyword">const</span> <span class="keyword">char</span> *propertyName = ivar_getName(property);</div><div class="line">NSLog(@<span class="string">"%s"</span>, propertyName);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出结果如下：</p>
+<blockquote>
+<p>_message<br>_attributedTitle<br>_attributedMessage<br>_attributedDetailMessage<br>_linkedAlertControllers<br>_cancelAction<br>_actionToKeyCommandsDictionary<br>_keyCommandToActionMapTable<br>_resolvedStyle<br>_preferredStyle<br>_contentViewController<br>_textFieldViewController<br>_backButtonDismissGestureRecognizer<br>_ownedTransitioningDelegate<br>_addContentViewControllerToViewHierarchyNeeded<br>_isInSupportedInterfaceOrientations<br>_batchActionChangesInProgressCount<br>_presenter<br>_actionsWithInvokedHandlers<br>_hidden<br>_springLoaded<br>_shouldFlipFrameForShimDismissal<br>_shouldAllowNilParameters<br>_hasPreservedInputViews<br>_actions<br>_styleProvider<br>_preferredAction<br>_temporaryAnimationCoordinator<br>_previewInteractionController<br>_visualStyle<br>_accessibilityViewControllerForSizing<br>_indexesOfActionSectionSeparators<br>_actionDelimiterIndices<br>_compatibilityPopoverController<br>_systemProvidedPresentationView<br>_systemProvidedPresentationDelegate<br>_systemProvidedGestureRecognizer<br>_coordinatedActionPerformingDelegate<br>_presentationSourceRepresentationView<br>_titleMaximumLineCount<br>_titleLineBreakMode</p>
+</blockquote>
+<h3 id="2-设置UIAlertController的文字样式"><a href="#2-设置UIAlertController的文字样式" class="headerlink" title="2.设置UIAlertController的文字样式"></a>2.设置UIAlertController的文字样式</h3><p>看到这么多的成员变量，眼花缭乱，从中可以看到几个需要的：<strong>_attributedTitle</strong>和<strong>_attributedMessage</strong>，分别是属性标题和属性内容，只要给文字添加属性，就可以显示出不同样式了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">unsigned int count;</div><div class="line">//修改标题样式</div><div class="line">NSMutableAttributedString *titleStr = [[NSMutableAttributedString alloc]initWithString:@&quot;有颜色的title&quot; attributes:@&#123;NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor blueColor]&#125;];</div><div class="line">[alert setValue:titleStr forKey:@&quot;attributedTitle&quot;];</div><div class="line"></div><div class="line">//修改内容样式</div><div class="line">NSMutableAttributedString *messageStr = [[NSMutableAttributedString alloc]initWithString:@&quot;有颜色的message&quot; attributes:@&#123;NSFontAttributeName:[UIFont systemFontOfSize:18], NSForegroundColorAttributeName:[UIColor purpleColor]&#125;];</div><div class="line">[alert setValue:messageStr forKey:@&quot;attributedMessage&quot;];</div><div class="line"></div><div class="line">//修改标题行数</div><div class="line">[alert setValue:@1 forKey:@&quot;_titleMaximumLineCount&quot;];</div><div class="line">//标题字符截断类型</div><div class="line">[alert setValue:@(NSLineBreakByTruncatingMiddle) forKey:@&quot;_titleLineBreakMode&quot;];</div></pre></td></tr></table></figure></p>
+<p>改变字体，颜色之后的效果图如下：</p>
+<p></p><p><img src="/assets/blog/alert/alert_02.png" width="400"></p><br>还有很多其他成员变量和属性，可以自己尝试一下。<p></p>
+<h3 id="3-设置UIAlertAction样式"><a href="#3-设置UIAlertAction样式" class="headerlink" title="3.设置UIAlertAction样式"></a>3.设置UIAlertAction样式</h3><p>同样的方法，可以查看到UIAlertAction的所有成员变量:</p>
+<blockquote>
+<p>_title<br>_titleTextAlignment<br>_enabled<br>_checked<br>_isPreferred<br>_imageTintColor<br>_titleTextColor<br>_style<br>_handler<br>_simpleHandler<br>_image<br>_shouldDismissHandler<br>_descriptiveText<br>_contentViewController<br>_keyCommandInput<br>_keyCommandModifierFlags<br>_representer<br>_interfaceActionRepresentation<br>_alertController</p>
+</blockquote>
+<p>给UIAlertAction添加文字、图片样式:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[sureAction setValue:[UIColor redColor] forKey:@<span class="string">"titleTextColor"</span>];</div><div class="line"><span class="comment">//避免图片被渲染</span></div><div class="line">[cancelAction setValue:[[UIImage imageNamed:@<span class="string">"star"</span>] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forKey:@<span class="string">"image"</span>];</div></pre></td></tr></table></figure></p>
+<p>两种alertController的效果图：</p>
+<p><img src="/assets/blog/alert/alert_03.png" alt=""><br><img src="/assets/blog/alert/alert_04.png" alt=""></p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=https://zhouyangyng.github.io/2017/12/13/UIAlertController自定义的样式/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/11/iOS波浪动画/" class="archive-article-date">
-  	<time datetime="2017-11-11T05:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-11</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/11/iOS波浪动画/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS波浪动画</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/11/iOS波浪动画/">iOS波浪动画</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/26/解决Xcode9打包上传失败的问题/" class="archive-article-date">
-  	<time datetime="2017-09-26T01:03:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/26/解决Xcode9打包上传失败的问题/">解决Xcode9打包上传失败的问题</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/24/UITabBarItem添加动画的一种方法/" class="archive-article-date">
-  	<time datetime="2017-09-24T13:43:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/24/UITabBarItem添加动画的一种方法/">UITabBarItem添加动画的一种方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -330,8 +355,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
