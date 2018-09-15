@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="XCode," />
+  <meta name="keywords" content="iOS," />
 
 
 
@@ -81,24 +81,20 @@
 
 
 
-<meta name="description" content="问题描述：前几天刚升级的Xcode9，今天第一次使用Xcode9打包更新APP的版本，结果上传ipa包的时候报错了:">
-<meta name="keywords" content="XCode">
+<meta name="description" content="###前言在iOS中，NSTimer的使用是非常频繁的，但是NSTimer在使用中需要注意，避免循环引用的问题。">
+<meta name="keywords" content="iOS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决Xcode9打包上传失败的问题">
-<meta property="og:url" content="https://zhouyangyng.github.io/2017/09/26/解决Xcode9打包上传失败的问题/index.html">
+<meta property="og:title" content="NSTimer解决循环引用的几种方案">
+<meta property="og:url" content="https://zhouyangyng.github.io/2018/04/09/NSTimer解决循环引用的解决方案/index.html">
 <meta property="og:site_name" content="浩瀚星空的博客">
-<meta property="og:description" content="问题描述：前几天刚升级的Xcode9，今天第一次使用Xcode9打包更新APP的版本，结果上传ipa包的时候报错了:">
+<meta property="og:description" content="###前言在iOS中，NSTimer的使用是非常频繁的，但是NSTimer在使用中需要注意，避免循环引用的问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_1.png">
-<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_2.png">
-<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_finder.png">
-<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_cfzxapp.png">
-<meta property="og:image" content="https://zhouyangyng.github.io/assets/blog/appstore_icons.png">
-<meta property="og:updated_time" content="2018-09-15T15:02:39.393Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2806916-9310b37f6734bde6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-09-15T15:01:04.391Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决Xcode9打包上传失败的问题">
-<meta name="twitter:description" content="问题描述：前几天刚升级的Xcode9，今天第一次使用Xcode9打包更新APP的版本，结果上传ipa包的时候报错了:">
-<meta name="twitter:image" content="https://zhouyangyng.github.io/assets/blog/appstore_1.png">
+<meta name="twitter:title" content="NSTimer解决循环引用的几种方案">
+<meta name="twitter:description" content="###前言在iOS中，NSTimer的使用是非常频繁的，但是NSTimer在使用中需要注意，避免循环引用的问题。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2806916-9310b37f6734bde6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -128,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://zhouyangyng.github.io/2017/09/26/解决Xcode9打包上传失败的问题/"/>
+  <link rel="canonical" href="https://zhouyangyng.github.io/2018/04/09/NSTimer解决循环引用的解决方案/"/>
 
 
 
 
 
-  <title>解决Xcode9打包上传失败的问题 | 浩瀚星空的博客</title>
+  <title>NSTimer解决循环引用的几种方案 | 浩瀚星空的博客</title>
   
 
 
@@ -271,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhouyangyng.github.io/2017/09/26/解决Xcode9打包上传失败的问题/">
+    <link itemprop="mainEntityOfPage" href="https://zhouyangyng.github.io/2018/04/09/NSTimer解决循环引用的解决方案/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="浩瀚星空">
@@ -288,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">解决Xcode9打包上传失败的问题</h1>
+          <h1 class="post-title" itemprop="name headline">NSTimer解决循环引用的几种方案</h1>
         
 
         <div class="post-meta">
@@ -300,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-26T09:03:34+08:00">
-                2017-09-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-09T19:06:57+08:00">
+                2018-04-09
               </time>
             
 
@@ -338,50 +334,36 @@
       
 
       
-        <h3 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h3><p>前几天刚升级的Xcode9，今天第一次使用Xcode9打包更新APP的版本，结果上传ipa包的时候报错了:</p>
-<a id="more"></a>
-<p><img src="/assets/blog/appstore_1.png" width="400"></p>
-
-<p>去网上查找了方法，很多人说是<strong>cocoapods</strong>的原因，解决方法是：在项目的<strong>podfile</strong>文件中，添加下面这段代码(代码中”TargetName”换成自己的)：</p>
-<blockquote>
-<p><font size="2"> post_install do |installer|<br>copy_pods_resources_path = “Pods/Target Support Files/Pods-*TargetName/Pods-TargetName-resources.sh”<br>string_to_replace = ‘–compile “${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}”‘<br>assets_compile_with_app_icon_arguments = ‘–compile “${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}” –app-icon “${ASSETCATALOG_COMPILER_APPICON_NAME}” –output-partial-info-plist “${BUILD_DIR}/assetcatalog_generated_info.plist”‘<br>text = File.read(copy_pods_resources_path)<br>new_contents = text.gsub(string_to_replace, assets_compile_with_app_icon_arguments)<br>File.open(copy_pods_resources_path, “w”) {|file| file.puts new_contents }<br>end</font></p>
-</blockquote>
-<p>接着 <strong>pod install</strong> 或者 <strong>pod update</strong></p>
-<p>我试了这个方法之后，依然没有解决，虽然ipa传上去了，但是传完后报错是说缺少了1024px的APP大图标，然后ipa无效。</p>
-<p><img src="/assets/blog/appstore_2.png" width="400"></p>
-
-<p>后来在博客<a href="https://yohunl.com/xcode9da-bao-shang-chuan-yu-dao-de-wen-ti-he-jie-jue-fang-shi/" target="_blank" rel="external">https://yohunl.com/xcode9da-bao-shang-chuan-yu-dao-de-wen-ti-he-jie-jue-fang-shi/</a> 中看到另一种方法，在编译结束时，找到对应的<strong>.xarchive</strong>文件，具体方法参考该博客。最后使用终端输入命令：</p>
-<blockquote>
-<p><font size="2"> find Products/ -name Info.plist -print0 | xargs -0n1 plutil -replace BuildMachineOSBuild -string 16A323</font></p>
-</blockquote>
-<p>博主说问题解决了，可是我的就是没用啊！😂 试了很多次，网上也找了很多文章，我的ipa一次次被拒绝。</p>
-<h3 id="思考："><a href="#思考：" class="headerlink" title="思考："></a>思考：</h3><p>1024px的图标是iOS11之后才有的，使用Xcode9上传时是不能缺少的，但是我的项目中确实有，并且图片也没有任何问题。于是打包后，查看了包内容，看看这个神奇的icon到底有没有？<br>查看的方法如下：</p>
-<ol>
-<li><p>编译后，对archive文件右击，然后 <strong>Show In Finder</strong>。</p>
-<p><img src="/assets/blog/appstore_finder.png" width="400"></p>
-</li>
-<li><p>archive文件右击 -&gt;    <strong>显示包内容</strong>，找到<strong>/Products/Applications/xxx.app</strong>，这就是打完包的app。</p>
-<p><img src="/assets/blog/appstore_cfzxapp.png" width="400"></p>
-</li>
-<li><p>接着右击 -&gt; <strong>显示包内容</strong>，就可以看到所有的文件了。往下翻，看到了所有的APP图标，明明项目中一共18个icon，这里居然17个，1024px的到底哪去了？😨 或许这是Xcode9.0的bug吧。</p>
-<p><img src="/assets/blog/appstore_icons.png" width="200"></p>
-
-</li>
-</ol>
-<h3 id="我的解决方法："><a href="#我的解决方法：" class="headerlink" title="我的解决方法："></a>我的解决方法：</h3><p>看到苹果官网的论坛上面讨论这个问题<a href="https://forums.developer.apple.com/thread/86290" target="_blank" rel="external">https://forums.developer.apple.com/thread/86290</a> ，仔细的看完了下面所有的回复，最终找到一个方法。<br>还是刚刚的路径，在 <strong>xxx.app</strong> 显示包内容后，找到 <strong>info.plist</strong> 文件，该文件用于记录项目打包后的配置信息。打开info.plist，把其中的几个属性值修改成下面的结果：</p>
-<blockquote>
-<ol>
-<li>DTXcode -&gt; “0833”</li>
-<li>DTSDKName -&gt; “iphoneos10.3”</li>
-<li>DTSDKBuild -&gt; “14E8301”</li>
-<li>DTPlatformName -&gt; “iphoneos”</li>
-<li>DTCompiler -&gt; “com.apple.compilers.llvm.clang.1_0”</li>
-<li>DTXcodeBuild -&gt; “8E3004b”</li>
-<li>DTPlatformVersion -&gt; “10.3”</li>
-<li>DTPlatformBuild -&gt; “14E8301”</li>
-</ol>
-</blockquote>
-<p>修改之后，导出ipa包，再次上传，成功！其实这种方法，就是把配置信息修改成Xcode8，虽然使用的是Xcode9，但是APP Store会认为是Xcode8, 因此APP Store不会验证1024px的icon，这样就解决了图标丢失的问题了，当然还要记得去iTunes Connect把APP的icon换成1024px的。</p>
+        <p>###前言<br>在iOS中，NSTimer的使用是非常频繁的，但是NSTimer在使用中需要注意，避免循环引用的问题。<br><a id="more"></a><br>之前经常这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (void)setupTimer &#123;</div><div class="line">    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)dealloc &#123;</div><div class="line">    [self.timer invalidate];</div><div class="line">    self.timer = nil;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于self强引用了timer，同时timer也强引用了self，所以循环引用造成dealloc方法根本不会走，self和timer都不会被释放，造成内存泄漏。</p>
+<p>下面介绍一下几种解决timer循环引用的方法。</p>
+<p>###1. 选择合适的时机手动释放timer(该方法并不太合理)<br>在之前自己就是这样解决循环引用的：</p>
+<ul>
+<li>控制器中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (void)viewDidDisappear:(BOOL)animated &#123;</div><div class="line">    [super viewDidDisappear:animated];</div><div class="line">    </div><div class="line">    [self.timer invalidate];</div><div class="line">    self.timer = nil;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>view中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (void)removeFromSuperview &#123;</div><div class="line">    [super removeFromSuperview];</div><div class="line">    </div><div class="line">    [self.timer invalidate];</div><div class="line">    self.timer = nil;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在某些情况下，这种做法是可以解决问题的，但是有时却会引起其他问题，比如控制器push到下一个控制器，viewDidDisappear后，timer被释放，此时再回来，timer已经不复存在了。</p>
+<p>所以，这种”方案”并不是合理的。</p>
+<p>###2. timer使用block方式添加Target-Action</p>
+<p>这里我们需要自己在NSTimer的分类中添加类方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@implementation NSTimer (BlcokTimer)</div><div class="line"></div><div class="line">+ (NSTimer *)bl_scheduledTimerWithTimeInterval:(NSTimeInterval)interval block:(void (^)(void))block repeats:(BOOL)repeats &#123;</div><div class="line">    </div><div class="line">    return [self scheduledTimerWithTimeInterval:interval target:self selector:@selector(bl_blockSelector:) userInfo:[block copy] repeats:repeats];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (void)bl_blockSelector:(NSTimer *)timer &#123;</div><div class="line">    </div><div class="line">    void(^block)(void) = timer.userInfo;</div><div class="line">    if (block) &#123;</div><div class="line">        block();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>通过block的方式，获取action，实际的target设置为self，即NSTimer类。这样我们在使用timer时，由于target的改变，就不再有循环引用了。<br>使用中还需要注意block可能引起的循环引用，所以使用<strong>weakSelf：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__weak typeof(self) weakSelf = self;</div><div class="line">self.timer = [NSTimer bl_scheduledTimerWithTimeInterval:1 block:^&#123;</div><div class="line">     [weakSelf changeText];</div><div class="line">&#125; repeats:YES];</div></pre></td></tr></table></figure>
+<p>虽然没有了循环引用，但是还是应该记得在dealloc时释放timer。</p>
+<p>###3. 给self添加中间件proxy<br>考虑到循环引用的原因，改方案就是需要打破这些相互引用关系，因此添加一个中间件，弱引用self，同时timer引用了中间件，这样通过弱引用来解决了相互引用，如图：<br><img src="https://upload-images.jianshu.io/upload_images/2806916-9310b37f6734bde6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="retainCycle.png"></p>
+<p>接下来看看怎么实现这个中间件，直接上代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@interface ZYWeakObject()</div><div class="line"></div><div class="line">@property (weak, nonatomic) id weakObject;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ZYWeakObject</div><div class="line"></div><div class="line">- (instancetype)initWithWeakObject:(id)obj &#123;</div><div class="line">    _weakObject = obj;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (instancetype)proxyWithWeakObject:(id)obj &#123;</div><div class="line">    return [[ZYWeakObject alloc] initWithWeakObject:obj];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>仅仅添加了weak类型的属性还不够，为了保证中间件能够响应外部self的事件，需要通过消息转发机制，让实际的响应target还是外部self，这一步至关重要，主要涉及到runtime的消息机制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 消息转发，让_weakObject响应事件</div><div class="line"> */</div><div class="line">- (id)forwardingTargetForSelector:(SEL)aSelector &#123;</div><div class="line">    return _weakObject;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)forwardInvocation:(NSInvocation *)invocation &#123;</div><div class="line">    void *null = NULL;</div><div class="line">    [invocation setReturnValue:&amp;null];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (BOOL)respondsToSelector:(SEL)aSelector &#123;</div><div class="line">    return [_weakObject respondsToSelector:aSelector];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接下来就可以这样使用中间件了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// target要设置成weakObj，实际响应事件的是self</div><div class="line">ZYWeakObject *weakObj = [ZYWeakObject proxyWithWeakObject:self];</div><div class="line">self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:weakObj selector:@selector(changeText) userInfo:nil repeats:YES];</div></pre></td></tr></table></figure>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>经测试，以上两种方案都是可以解决timer的循环引用问题，个人比较喜欢中间件的方式。有任何问题，欢迎提出讨论。</p>
+<p>代码请移步github: <a href="https://github.com/zhouyangyng/timerRetainCycle" target="_blank" rel="external">Demo</a></p>
 
       
     </div>
@@ -399,7 +381,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/XCode/" rel="tag"># XCode</a>
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
           
         </div>
       
@@ -412,8 +394,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/24/UITabBarItem添加动画的一种方法/" rel="next" title="UITabBarItem添加动画的一种方法">
-                <i class="fa fa-chevron-left"></i> UITabBarItem添加动画的一种方法
+              <a href="/2017/11/11/iOS波浪动画/" rel="next" title="iOS波浪动画">
+                <i class="fa fa-chevron-left"></i> iOS波浪动画
               </a>
             
           </div>
@@ -421,10 +403,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/11/iOS波浪动画/" rel="prev" title="iOS波浪动画">
-                iOS波浪动画 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -554,7 +532,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述："><span class="nav-number">1.</span> <span class="nav-text">问题描述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考："><span class="nav-number">2.</span> <span class="nav-text">思考：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我的解决方法："><span class="nav-number">3.</span> <span class="nav-text">我的解决方法：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#结论"><span class="nav-number">1.</span> <span class="nav-text">结论</span></a></li></ol></div>
             
 
           </div>
